@@ -189,14 +189,28 @@
         this.listLoading = true
         executeCrawlerShell(row).then(response => {
           this.listLoading = false
-        }).catch(err => {
-          console.log(err)
-          this.listLoading = false
           this.$notify({
-            message: '脚本执行失败',
-            type: 'error',
+            message: '脚本执行成功',
+            type: 'success',
             duration: 2000
           })
+        }).catch(err => {
+          this.listLoading = false
+          const responseCode = err.response.headers.responsecode
+          console.log(responseCode)
+          if (responseCode === 'CRAWLER_SHELL_NOT_EXISTS') {
+            this.$notify({
+              message: '脚本不存在',
+              type: 'error',
+              duration: 2000
+            })
+          } else {
+            this.$notify({
+              message: '脚本执行失败',
+              type: 'error',
+              duration: 2000
+            })
+          }
         })
       },
       createCrawlerShell() {
