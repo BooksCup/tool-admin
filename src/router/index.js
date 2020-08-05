@@ -195,17 +195,17 @@ export const asyncRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'search',
     meta: {
-      title: '搜索',
-      icon: 'search',
+      title: '设置',
+      icon: 'example',
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
     children: [
       {
-        path: 'file-item',
-        component: () => import('@/views/search/file-item'),
-        name: 'file-item',
+        path: 'region',
+        component: () => import('@/views/setting/region'),
+        name: 'region',
         meta: {
-          title: '文件'
+          title: '地区'
         }
       }
     ]
