@@ -19,3 +19,11 @@ export function createRegion(data) {
   })
 }
 
+// 删除region
+export function deleteRegion(regionId) {
+  return request({
+    url: base_url + 'admin/region/' + regionId,
+    method: 'delete'
+  })
+}
+

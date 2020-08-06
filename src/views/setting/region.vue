@@ -93,7 +93,7 @@
 </template>
 
 <script>
-  import { fetchRegion, createRegion } from '../../api/setting'
+  import { fetchRegion, createRegion, deleteRegion } from '../../api/setting'
   import { report_file_url } from '@/utils/config'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -196,6 +196,37 @@
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
+      },
+      handleDelete(row, index) {
+        this.$confirm('删除操作无法恢复，请谨慎删除。', '是否删除"' + row.name + '"?', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          type: 'error'
+        })
+          .then(async() => {
+            deleteRegion(row.id).then(response => {
+              console.log(response)
+              const code = response.status
+              if (code === 200) {
+                this.$notify({
+                  message: '删除成功!',
+                  type: 'success',
+                  duration: 2000
+                })
+                this.list.splice(index, 1)
+              } else {
+                this.$notify({
+                  message: '删除失败',
+                  type: 'error',
+                  duration: 2000
+                })
+              }
+              console.log(response)
+            })
+          })
+          .catch(err => {
+            console.error(err)
+          })
       },
       handleDownload(row) {
         const a = document.createElement('a')
