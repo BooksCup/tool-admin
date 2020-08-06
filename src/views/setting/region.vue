@@ -76,7 +76,7 @@
         <el-form-item label="地区名:" prop="name">
           <el-input v-model="temp.name" placeholder="地区名" />
         </el-form-item>
-        <el-form-item label="区号:" prop="name">
+        <el-form-item label="区号:" prop="code">
           <el-input v-model="temp.code" placeholder="区号" />
         </el-form-item>
       </el-form>
@@ -89,11 +89,39 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="updateFormVisible">
+      <el-form
+        ref="updateForm"
+        :model="temp"
+        label-position="left"
+        label-width="100px"
+        style="width: 400px; margin-left:50px;"
+      >
+        <el-form-item label="地区名:" prop="name">
+          <el-input v-model="temp.name" placeholder="地区名" />
+        </el-form-item>
+        <el-form-item label="区号:" prop="code">
+          <el-input v-model="temp.code" placeholder="区号" />
+        </el-form-item>
+        <el-form-item label="排序:" prop="seq">
+          <el-input v-model="temp.seq" placeholder="排序" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="updateFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="updateRegion()">
+          保存
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { fetchRegion, createRegion, deleteRegion } from '../../api/setting'
+  import { fetchRegion, createRegion, deleteRegion, updateRegion } from '../../api/setting'
   import { report_file_url } from '@/utils/config'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -189,6 +217,14 @@
           parentId: '0'
         }
       },
+      initTemp(row) {
+        this.temp = {
+          id: row.id,
+          name: row.name,
+          code: row.code,
+          seq: row.seq
+        }
+      },
       handleCreate() {
         this.resetTemp()
         this.dialogStatus = 'create'
@@ -196,6 +232,11 @@
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
+      },
+      handleUpdate(row, index) {
+        this.initTemp(row)
+        this.dialogStatus = 'update'
+        this.updateFormVisible = true
       },
       handleDelete(row, index) {
         this.$confirm('删除操作无法恢复，请谨慎删除。', '是否删除"' + row.name + '"?', {
@@ -260,6 +301,31 @@
                 type: 'error',
                 duration: 2000
               })
+            })
+          }
+        })
+      },
+      updateRegion() {
+        this.$refs['updateForm'].validate((valid) => {
+          if (valid) {
+            updateRegion(this.temp).then(response => {
+              this.updateFormVisible = false
+              const code = response.status
+              if (code === 200) {
+                this.$notify({
+                  message: '编辑成功',
+                  type: 'success',
+                  duration: 2000
+                })
+                const index = this.list.findIndex(v => v.id === this.temp.id)
+                this.list.splice(index, 1, this.temp)
+              } else {
+                this.$notify({
+                  message: '编辑失败',
+                  type: 'error',
+                  duration: 2000
+                })
+              }
             })
           }
         })

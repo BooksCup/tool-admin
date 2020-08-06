@@ -19,6 +19,15 @@ export function createRegion(data) {
   })
 }
 
+// 修改region
+export function updateRegion(data) {
+  return request({
+    url: base_url + 'admin/region/' + data.id,
+    method: 'put',
+    params: data
+  })
+}
+
 // 删除region
 export function deleteRegion(regionId) {
   return request({
