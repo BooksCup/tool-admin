@@ -20,6 +20,15 @@
       >
         创建
       </el-button>
+      <el-button
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="info"
+        icon="el-icon-refresh"
+        @click="handleRefresh"
+      >
+        刷新
+      </el-button>
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
@@ -121,7 +130,7 @@
 </template>
 
 <script>
-  import { fetchRegion, createRegion, deleteRegion, updateRegion } from '../../api/setting'
+  import { fetchRegion, createRegion, deleteRegion, updateRegion, refreshRegion } from '../../api/setting'
   import { report_file_url } from '@/utils/config'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
@@ -166,6 +175,13 @@
           this.listLoading = false
         })
       },
+      handleRefresh() {
+        this.listLoading = true
+        this.resetQuery()
+        refreshRegion(this.listQuery).then(response => {
+          this.getList()
+        })
+      },
       handleFilter() {
         this.listQuery.page = 1
         this.getList()
@@ -175,6 +191,14 @@
           id: '',
           name: '',
           code: '',
+          level: '1',
+          parentId: '0'
+        }
+      },
+      resetQuery() {
+        this.listQuery = {
+          page: 1,
+          limit: 10,
           level: '1',
           parentId: '0'
         }

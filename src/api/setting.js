@@ -36,3 +36,12 @@ export function deleteRegion(regionId) {
   })
 }
 
+// 刷新region排序
+export function refreshRegion(data) {
+  return request({
+    url: base_url + 'admin/region/refresh',
+    method: 'post',
+    params: data
+  })
+}
+
