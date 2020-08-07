@@ -126,51 +126,14 @@
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
-  const typeOptions = [
-    { value: '0', label: '物品' }
-  ]
-
-  const typeKeyValue = typeOptions.reduce((acc, cur) => {
-    acc[cur.value] = cur.label
-    return acc
-  }, {})
-
-  const statusOptions = [
-    { value: '0', label: '新建' },
-    { value: '1', label: '进行中' },
-    { value: '2', label: '成功' },
-    { value: '3', label: '失败' }
-  ]
-  const statusKeyValue = statusOptions.reduce((acc, cur) => {
-    acc[cur.value] = cur.label
-    return acc
-  }, {})
-
   export default {
     name: 'Region',
     components: { Pagination },
     directives: { waves },
     filters: {
-      typeFilter(type) {
-        return typeKeyValue[type]
-      },
-      statusFilter(status) {
-        return statusKeyValue[status]
-      },
-      statusClassFilter(status) {
-        const statusClassMap = {
-          '0': 'color:black;',
-          '1': 'color:orange;',
-          '2': 'color:green;',
-          '3': 'color:red;'
-        }
-        return statusClassMap[status]
-      }
     },
     data() {
       return {
-        typeOptions,
-        statusOptions,
         tableKey: 0,
         list: null,
         total: 0,
@@ -187,8 +150,7 @@
         textMap: {
           create: '创建地区'
         },
-        temp: {},
-        accountId: ''
+        temp: {}
       }
     },
     created() {
