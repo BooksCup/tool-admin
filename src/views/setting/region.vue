@@ -130,8 +130,7 @@
     name: 'Region',
     components: { Pagination },
     directives: { waves },
-    filters: {
-    },
+    filters: {},
     data() {
       return {
         tableKey: 0,
@@ -148,7 +147,8 @@
         updateFormVisible: false,
         dialogStatus: '',
         textMap: {
-          create: '创建地区'
+          create: '创建地区',
+          update: '修改地区'
         },
         temp: {}
       }
