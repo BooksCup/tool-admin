@@ -58,3 +58,19 @@ export function updateUser(param) {
     params: param
   })
 }
+
+// 检测极光用户是否存在
+export function checkJimUserExist(userId) {
+  return request({
+    url: base_url + 'admin/jimUser/' + userId + '/exist',
+    method: 'get'
+  })
+}
+
+// 同步用户信息至极光
+export function syncUserToJim(userId) {
+  return request({
+    url: base_url + 'admin/jimUser?userId=' + userId,
+    method: 'post'
+  })
+}

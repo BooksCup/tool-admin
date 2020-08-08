@@ -25,6 +25,30 @@
           />
         </el-form-item>
 
+        <el-form-item label-width="130px" label="极光:" class="postInfo-container-item">
+          <el-tag
+            v-if="jimUserExist === true"
+            type="success"
+            style="margin-left: 10px;">
+            存在
+          </el-tag>
+          <el-tag
+            v-if="jimUserExist === false"
+            type="danger"
+            style="margin-left: 10px;">
+            不存在
+          </el-tag>
+
+          <el-button
+            v-show="jimUserExist===false"
+            class="thirdparty-button"
+            type="primary"
+            @click="syncUserToJim"
+            style="margin-left: 10px;">
+            同步
+          </el-button>
+        </el-form-item>
+
         <el-form-item label-width="130px" label="消息类型:" class="postInfo-container-item">
           <el-select v-model="temp.msgType" style="width: 300px; margin-left: 10px;">
             <el-option v-for="item in msgTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
@@ -38,6 +62,7 @@
 <script>
   import Sticky from '@/components/Sticky'
   import { checkGoods } from '@/api/data-monitor'
+  import { checkJimUserExist, syncUserToJim } from '../../api/user'
 
   const msgTypeOptions = [
     { value: 'text', label: '文本' },
@@ -63,29 +88,68 @@
       return {
         msgTypeOptions,
         temp: {
-          goodsNo: '',
-          goodsName: '',
-          goodsPhoto: '',
-          goodsPhotoList: [],
-          goodsAttrList: [],
-          checkInfoList: [],
-          goodsAttr: '',
-          checkInfo: '',
           userNickName: '',
           userPhone: '',
           msgType: []
         },
-        loadingData: false
+        userId: '',
+        loadingData: false,
+        jimUserExist: null
       }
     },
     computed: {},
     created() {
+      const userId = this.$route.params && this.$route.params.id
       const userNickName = this.$route.query && this.$route.query.userNickName
       const userPhone = this.$route.query && this.$route.query.userPhone
+      this.userId = userId
       this.temp.userNickName = userNickName
       this.temp.userPhone = userPhone
+      this.checkJimUserExist(userId)
     },
     methods: {
+      checkJimUserExist(userId) {
+        checkJimUserExist(userId).then(response => {
+          const code = response.status
+          if (code === 200) {
+            this.jimUserExist = true
+          } else {
+            this.jimUserExist = false
+          }
+        }).catch(e => {
+          this.jimUserExist = false
+        })
+      },
+      syncUserToJim() {
+        this.loadingData = true
+        syncUserToJim(this.userId).then(response => {
+          this.loadingData = false
+          const code = response.status
+          if (code === 200) {
+            this.$notify({
+              message: '同步成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.jimUserExist = true
+          } else {
+            this.$notify({
+              message: '同步失败',
+              type: 'error',
+              duration: 2000
+            })
+            this.jimUserExist = false
+          }
+        }).catch(e => {
+          this.loadingData = false
+          this.$notify({
+            message: '同步失败',
+            type: 'error',
+            duration: 2000
+          })
+          this.jimUserExist = false
+        })
+      },
       submitForm() {
         this.loadingData = true
         // return;
