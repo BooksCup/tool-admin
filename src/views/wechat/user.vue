@@ -71,8 +71,11 @@
       </el-table-column>
 
       <el-table-column align="center" min-width="100px" label="操作">
-        <template slot-scope="{row, $index}">
-          <el-button size="small" type="primary" icon="el-icon-message" @click="handleUpdate(row, $index)" />
+        <template slot-scope="{row}">
+          <router-link
+            :to="{path: '/wechat/user-jmessage-template/' + row.userId, query:{userNickName: row.userNickName, userPhone: row.userPhone}}">
+            <el-button type="warning" size="small" icon="el-icon-message" />
+          </router-link>
         </template>
       </el-table-column>
     </el-table>

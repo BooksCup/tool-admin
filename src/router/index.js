@@ -167,7 +167,7 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/check-template',
+    path: '/wechat',
     component: Layout,
     redirect: '/permission/page',
     alwaysShow: true, // will always show the root menu
@@ -180,11 +180,18 @@ export const asyncRoutes = [
     children: [
       {
         path: 'user',
-        component: () => import('@/views/admin/user'),
+        component: () => import('@/views/wechat/user'),
         name: 'user',
         meta: {
           title: '用户管理'
         }
+      },
+      {
+        path: 'user-jmessage-template/:id',
+        component: () => import('@/views/wechat/user-jmessage-template'),
+        name: 'user-jmessage-template',
+        meta: { title: '极光IM', noCache: true, activeMenu: '/wechat/user-jmessage-template' },
+        hidden: true
       }
     ]
   },
