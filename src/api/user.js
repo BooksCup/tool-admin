@@ -27,7 +27,7 @@ export function logout() {
 // 获取用户列表
 export function fetchUserList(query) {
   return request({
-    url: base_url + 'users',
+    url: base_url + 'admin/users',
     method: 'get',
     params: query
   })

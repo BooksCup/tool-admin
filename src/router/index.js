@@ -173,17 +173,17 @@ export const asyncRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'check-template',
     meta: {
-      title: '测试模板',
-      icon: 'table',
+      title: '微信',
+      icon: 'wechat',
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
     children: [
       {
-        path: 'goods-check-template',
-        component: () => import('@/views/data-monitor/goods-check-template'),
-        name: 'goods-check-template',
+        path: 'user',
+        component: () => import('@/views/admin/user'),
+        name: 'user',
         meta: {
-          title: '物品'
+          title: '用户管理'
         }
       }
     ]
