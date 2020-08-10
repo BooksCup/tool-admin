@@ -52,7 +52,7 @@
 
       <el-table-column align="center" min-width="100px" label="下属地区">
         <template slot-scope="{row}">
-          <router-link :to="'/setting/region-lv2/'+row.id">
+          <router-link :to="'/data-monitor/mail-send-log/'+row.id">
             <el-button type="warning" size="small" icon="el-icon-tickets" />
           </router-link>
         </template>
@@ -85,9 +85,6 @@
         <el-form-item label="地区名:" prop="name">
           <el-input v-model="temp.name" placeholder="地区名" />
         </el-form-item>
-        <el-form-item label="区号:" prop="code">
-          <el-input v-model="temp.code" placeholder="区号" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="createFormVisible = false">
@@ -109,9 +106,6 @@
       >
         <el-form-item label="地区名:" prop="name">
           <el-input v-model="temp.name" placeholder="地区名" />
-        </el-form-item>
-        <el-form-item label="区号:" prop="code">
-          <el-input v-model="temp.code" placeholder="区号" />
         </el-form-item>
         <el-form-item label="排序:" prop="seq">
           <el-input v-model="temp.seq" placeholder="排序" />
@@ -136,7 +130,7 @@
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
   export default {
-    name: 'Region',
+    name: 'RegionLv2',
     components: { Pagination },
     directives: { waves },
     filters: {},
@@ -149,8 +143,7 @@
         listQuery: {
           page: 1,
           limit: 10,
-          level: '1',
-          parentId: '0'
+          level: '2'
         },
         createFormVisible: false,
         updateFormVisible: false,
@@ -159,14 +152,19 @@
           create: '创建地区',
           update: '修改地区'
         },
-        temp: {}
+        temp: {},
+        parentId: '',
+        parentName: ''
       }
     },
     created() {
-      this.getList()
+      const parentId = this.$route.params && this.$route.params.id
+      this.parentId = parentId
+      this.listQuery.parentId = parentId
+      this.getList(parentId)
     },
     methods: {
-      getList() {
+      getList(parentId) {
         this.listLoading = true
         fetchRegion(this.listQuery).then(response => {
           const res = response.data
@@ -179,7 +177,7 @@
         this.listLoading = true
         this.resetQuery()
         refreshRegion(this.listQuery).then(response => {
-          this.getList()
+          this.getList(this.parentId)
         })
       },
       handleFilter() {
@@ -190,17 +188,17 @@
         this.temp = {
           id: '',
           name: '',
-          code: '',
-          level: '1',
-          parentId: '0'
+          code: '86',
+          level: '2',
+          parentId: this.parentId
         }
       },
       resetQuery() {
         this.listQuery = {
           page: 1,
           limit: 10,
-          level: '1',
-          parentId: '0'
+          level: '2',
+          parentId: this.parentId
         }
       },
       initTemp(row) {

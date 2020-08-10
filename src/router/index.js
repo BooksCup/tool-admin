@@ -189,11 +189,11 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/search',
+    path: '/setting',
     component: Layout,
     redirect: '/permission/page',
     alwaysShow: true, // will always show the root menu
-    name: 'search',
+    name: 'setting',
     meta: {
       title: '设置',
       icon: 'example',
@@ -207,6 +207,13 @@ export const asyncRoutes = [
         meta: {
           title: '地区'
         }
+      },
+      {
+        path: 'region-lv2/:id',
+        component: () => import('@/views/setting/region-lv2'),
+        name: 'region-lv2',
+        meta: { title: '二级地区', noCache: true, activeMenu: '/setting/region-lv2' },
+        hidden: true
       }
     ]
   },
