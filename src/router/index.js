@@ -221,6 +221,13 @@ export const asyncRoutes = [
         name: 'region-lv2',
         meta: { title: '二级地区', noCache: true, activeMenu: '/setting/region-lv2' },
         hidden: true
+      },
+      {
+        path: 'region-lv3/:id',
+        component: () => import('@/views/setting/region-lv3'),
+        name: 'region-lv3',
+        meta: { title: '三级地区', noCache: true, activeMenu: '/setting/region-lv3' },
+        hidden: true
       }
     ]
   },

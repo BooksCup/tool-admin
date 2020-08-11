@@ -47,7 +47,7 @@
 
       <el-table-column align="center" min-width="100px" label="下属地区">
         <template slot-scope="{row}">
-          <router-link :to="'/data-monitor/mail-send-log/'+row.id">
+          <router-link :to="{path: '/setting/region-lv3/' + row.id, query: {parentName: row.name, parentCode: row.code}}">
             <el-button type="warning" size="small" icon="el-icon-tickets" />
           </router-link>
         </template>

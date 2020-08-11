@@ -29,32 +29,19 @@
       >
         刷新
       </el-button>
+      <el-alert :closable="false" type="success" v-text="parentName + '(' + parentCode + ')' " />
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" width="400px" label="地区名">
+      <el-table-column align="center" width="600px" label="地区名">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" width="400px" label="区号">
-        <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" width="200px" label="排序">
         <template slot-scope="scope">
           <span>{{ scope.row.seq }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" min-width="100px" label="下属地区">
-        <template slot-scope="{row}">
-          <router-link :to="{path: '/setting/region-lv2/' + row.id, query: {parentName: row.name, parentCode: row.code}}">
-            <el-button type="warning" size="small" icon="el-icon-tickets" />
-          </router-link>
         </template>
       </el-table-column>
 
@@ -85,9 +72,6 @@
         <el-form-item label="地区名:" prop="name">
           <el-input v-model="temp.name" placeholder="地区名" />
         </el-form-item>
-        <el-form-item label="区号:" prop="code">
-          <el-input v-model="temp.code" placeholder="区号" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="createFormVisible = false">
@@ -109,9 +93,6 @@
       >
         <el-form-item label="地区名:" prop="name">
           <el-input v-model="temp.name" placeholder="地区名" />
-        </el-form-item>
-        <el-form-item label="区号:" prop="code">
-          <el-input v-model="temp.code" placeholder="区号" />
         </el-form-item>
         <el-form-item label="排序:" prop="seq">
           <el-input v-model="temp.seq" placeholder="排序" />
@@ -136,7 +117,7 @@
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
   export default {
-    name: 'Region',
+    name: 'RegionLv3',
     components: { Pagination },
     directives: { waves },
     filters: {},
@@ -149,8 +130,7 @@
         listQuery: {
           page: 1,
           limit: 10,
-          level: '1',
-          parentId: '0'
+          level: '3'
         },
         createFormVisible: false,
         updateFormVisible: false,
@@ -159,14 +139,24 @@
           create: '创建地区',
           update: '修改地区'
         },
-        temp: {}
+        temp: {},
+        parentId: '',
+        parentName: '',
+        parentCode: ''
       }
     },
     created() {
-      this.getList()
+      const parentId = this.$route.params && this.$route.params.id
+      const parentName = this.$route.query && this.$route.query.parentName
+      const parentCode = this.$route.query && this.$route.query.parentCode
+      this.parentId = parentId
+      this.parentName = parentName
+      this.parentCode = parentCode
+      this.listQuery.parentId = parentId
+      this.getList(parentId)
     },
     methods: {
-      getList() {
+      getList(parentId) {
         this.listLoading = true
         fetchRegion(this.listQuery).then(response => {
           const res = response.data
@@ -179,7 +169,7 @@
         this.listLoading = true
         this.resetQuery()
         refreshRegion(this.listQuery).then(response => {
-          this.getList()
+          this.getList(this.parentId)
         })
       },
       handleFilter() {
@@ -190,17 +180,17 @@
         this.temp = {
           id: '',
           name: '',
-          code: '',
-          level: '1',
-          parentId: '0'
+          code: this.parentCode,
+          level: '3',
+          parentId: this.parentId
         }
       },
       resetQuery() {
         this.listQuery = {
           page: 1,
           limit: 10,
-          level: '1',
-          parentId: '0'
+          level: '3',
+          parentId: this.parentId
         }
       },
       initTemp(row) {
