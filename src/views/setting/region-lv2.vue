@@ -29,18 +29,13 @@
       >
         刷新
       </el-button>
+      <el-alert :closable="false" type="success" v-text="parentName + '(' + parentCode + ')' " />
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" width="400px" label="地区名">
+      <el-table-column align="center" width="600px" label="地区名">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" width="400px" label="区号">
-        <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
 
@@ -154,12 +149,17 @@
         },
         temp: {},
         parentId: '',
-        parentName: ''
+        parentName: '',
+        parentCode: ''
       }
     },
     created() {
       const parentId = this.$route.params && this.$route.params.id
+      const parentName = this.$route.query && this.$route.query.parentName
+      const parentCode = this.$route.query && this.$route.query.parentCode
       this.parentId = parentId
+      this.parentName = parentName
+      this.parentCode = parentCode
       this.listQuery.parentId = parentId
       this.getList(parentId)
     },
@@ -188,7 +188,7 @@
         this.temp = {
           id: '',
           name: '',
-          code: '86',
+          code: this.parentCode,
           level: '2',
           parentId: this.parentId
         }
