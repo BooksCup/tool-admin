@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input
-        v-model="listQuery.userNickName"
-        placeholder="请输入用户名"
+        v-model="listQuery.name"
+        placeholder="请输入名称"
         style="width: 170px;"
         class="filter-item"
         @keyup.enter.native="handleFilter"
@@ -15,13 +15,14 @@
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
-      <el-input
-        v-model="listQuery.userWxId"
-        placeholder="请输入微信号"
+      <el-date-picker
+        v-model="listQuery.date"
+        type="date"
+        format="yyyy-MM-dd"
+        value-format="yyyy-MM-dd"
         style="width: 170px;"
         class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
+        placeholder="请选择报价日期" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
