@@ -8,13 +8,9 @@
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
-      <el-input
-        v-model="listQuery.userPhone"
-        placeholder="请输入手机号"
-        style="width: 170px;"
-        class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
+      <el-select v-model="listQuery.type" style="width: 140px" class="filter-item" clearable @change="handleFilter">
+        <el-option v-for="item in this.weaveTypeOptions" :key="item" :label="item" :value="item" />
+      </el-select>
       <el-date-picker
         v-model="listQuery.date"
         type="date"
@@ -22,7 +18,9 @@
         value-format="yyyy-MM-dd"
         style="width: 170px;"
         class="filter-item"
-        placeholder="请选择报价日期" />
+        placeholder="请选择报价日期"
+        @change="handleFilter"
+      />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
@@ -94,7 +92,7 @@
 </template>
 
 <script>
-  import { fetchWeavePriceList } from '@/api/crawler'
+  import { fetchWeaveTypeList, fetchWeavePriceList } from '@/api/crawler'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -102,25 +100,10 @@
     name: 'WeavePrice',
     components: { Pagination },
     directives: { waves },
-    filters: {
-      sexFilter(sex) {
-        const sexMap = {
-          1: '男',
-          2: '女'
-        }
-        return sexMap[sex]
-      },
-      sexClassFilter(sex) {
-        const sexClassMap = {
-          '0': 'color:black;',
-          '1': 'color:green;',
-          '2': 'color:red;'
-        }
-        return sexClassMap[sex]
-      }
-    },
+    filters: {},
     data() {
       return {
+        weaveTypeOptions: null,
         tableKey: 0,
         list: null,
         total: 0,
@@ -128,11 +111,11 @@
         listQuery: {
           page: 1,
           limit: 10
-        },
-        userId: ''
+        }
       }
     },
     created() {
+      this.getWeaveTypeList()
       this.getList()
     },
     methods: {
@@ -146,6 +129,11 @@
           this.list = res.list
           this.total = res.total
           this.listLoading = false
+        })
+      },
+      getWeaveTypeList() {
+        fetchWeaveTypeList().then(response => {
+          this.weaveTypeOptions = response.data
         })
       },
       handleFilter() {
