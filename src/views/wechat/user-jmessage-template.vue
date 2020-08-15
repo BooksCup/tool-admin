@@ -11,7 +11,7 @@
       <div class="createPost-main-container">
         <el-form-item label-width="130px" label="用户名:" class="postInfo-container-item" prop="userNickName">
           <el-input
-            v-model="temp.userNickName"
+            v-model="this.userNickName"
             style="width: 500px; margin-left: 10px;"
             disabled
           />
@@ -19,7 +19,7 @@
 
         <el-form-item label-width="130px" label="手机号:" class="postInfo-container-item" prop="userPhone">
           <el-input
-            v-model="temp.userPhone"
+            v-model="this.userPhone"
             style="width: 500px; margin-left: 10px;"
             disabled
           />
@@ -54,6 +54,14 @@
             <el-option v-for="item in msgTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
+
+        <el-form-item v-if="temp.msgType === 'text'" label-width="130px" label="文本:" class="postInfo-container-item">
+          <el-input
+            type="textarea"
+            v-model="text"
+            style="width: 500px; margin-left: 10px;"
+          />
+        </el-form-item>
       </div>
     </el-form>
   </div>
@@ -61,7 +69,7 @@
 
 <script>
   import Sticky from '@/components/Sticky'
-  import { checkGoods } from '@/api/data-monitor'
+  import { sendMessage } from '../../api/message'
   import { checkJimUserExist, syncUserToJim } from '../../api/user'
 
   const msgTypeOptions = [
@@ -88,13 +96,22 @@
       return {
         msgTypeOptions,
         temp: {
-          userNickName: '',
-          userPhone: '',
-          msgType: []
+          msgType: '',
+          targetId: '',
+          targetType: 'single',
+          fromId: '0000000000000',
+          body: ''
+        },
+        textMsg: {
+          extras: {},
+          text: ''
         },
         userId: '',
+        userPhone: '',
+        userNickName: '',
         loadingData: false,
-        jimUserExist: null
+        jimUserExist: null,
+        text: ''
       }
     },
     computed: {},
@@ -103,8 +120,9 @@
       const userNickName = this.$route.query && this.$route.query.userNickName
       const userPhone = this.$route.query && this.$route.query.userPhone
       this.userId = userId
-      this.temp.userNickName = userNickName
-      this.temp.userPhone = userPhone
+      this.userNickName = userNickName
+      this.userPhone = userPhone
+      this.temp.targetId = userId
       this.checkJimUserExist(userId)
     },
     methods: {
@@ -152,39 +170,31 @@
       },
       submitForm() {
         this.loadingData = true
-        // return;
-        this.$refs.postForm.validate(valid => {
-          if (valid) {
-            checkGoods(this.temp.goodsNo).then(response => {
-              const code = response.status
-              this.temp = response.data
-              if (code === 200) {
-                this.$notify({
-                  message: '检测完成',
-                  type: 'success',
-                  duration: 2000
-                })
-              } else {
-                this.$notify({
-                  message: '检测失败',
-                  type: 'error',
-                  duration: 2000
-                })
-              }
-              this.loadingData = false
-            }).catch(e => {
-              this.$notify({
-                message: '检测失败',
-                type: 'error',
-                duration: 2000
-              })
-              this.temp = e.response.data
-              this.loadingData = false
+        this.textMsg.text = this.text
+        this.temp.body = this.textMsg
+        sendMessage(this.temp).then(response => {
+          this.loadingData = false
+          const code = response.status
+          if (code === 200) {
+            this.$notify({
+              message: '发送成功',
+              type: 'success',
+              duration: 2000
             })
           } else {
-            this.loadingData = false
-            return false
+            this.$notify({
+              message: '发送失败',
+              type: 'error',
+              duration: 2000
+            })
           }
+        }).catch(e => {
+          this.loadingData = false
+          this.$notify({
+            message: '发送失败',
+            type: 'error',
+            duration: 2000
+          })
         })
       }
     }

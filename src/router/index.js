@@ -196,6 +196,36 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/crawler',
+    component: Layout,
+    redirect: '/permission/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'crawler',
+    meta: {
+      title: '爬虫',
+      icon: 'bug',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'weave-price',
+        component: () => import('@/views/crawler/weave-price'),
+        name: 'weave-price',
+        meta: {
+          title: '纺织品价格趋势'
+        }
+      },
+      {
+        path: 'crawler-shell',
+        component: () => import('@/views/wechat/user'),
+        name: 'crawler-shell',
+        meta: {
+          title: '脚本管理'
+        }
+      }
+    ]
+  },
+  {
     path: '/setting',
     component: Layout,
     redirect: '/permission/page',
