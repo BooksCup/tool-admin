@@ -217,7 +217,7 @@ export const asyncRoutes = [
       },
       {
         path: 'crawler-shell',
-        component: () => import('@/views/wechat/user'),
+        component: () => import('@/views/crawler/crawler-shell'),
         name: 'crawler-shell',
         meta: {
           title: '脚本管理'
@@ -335,18 +335,18 @@ export const asyncRoutes = [
   //   ]
   // },
   //
-  // {
-  //   path: '/icon',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/icons/index'),
-  //       name: 'Icons',
-  //       meta: { title: 'Icons', icon: 'icon', noCache: true }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/icon',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/icons/index'),
+        name: 'Icons',
+        meta: { title: 'Icons', icon: 'icon', noCache: true }
+      }
+    ]
+  },
   //
   // /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,

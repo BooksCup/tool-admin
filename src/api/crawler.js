@@ -17,3 +17,21 @@ export function fetchWeavePriceList(query) {
     params: query
   })
 }
+
+// 获取爬虫脚本列表
+export function fetchCrawlerShellList(query) {
+  return request({
+    url: crawler_base_url + 'crawlerShell',
+    method: 'get',
+    params: query
+  })
+}
+
+// 执行爬虫脚本
+export function executeCrawlerShell(data) {
+  return request({
+    url: crawler_base_url + 'crawlerShell/execute',
+    method: 'post',
+    params: data
+  })
+}
