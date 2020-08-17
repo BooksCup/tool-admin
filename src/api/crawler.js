@@ -27,6 +27,15 @@ export function fetchCrawlerShellList(query) {
   })
 }
 
+// 创建爬虫脚本
+export function createCrawlerShell(data) {
+  return request({
+    url: crawler_base_url + 'crawlerShell',
+    method: 'post',
+    params: data
+  })
+}
+
 // 执行爬虫脚本
 export function executeCrawlerShell(data) {
   return request({
