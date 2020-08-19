@@ -44,3 +44,11 @@ export function executeCrawlerShell(data) {
     params: data
   })
 }
+
+// 删除爬虫脚本
+export function deleteCrawlerShell(shellId) {
+  return request({
+    url: crawler_base_url + 'crawlerShell/' + shellId,
+    method: 'delete'
+  })
+}

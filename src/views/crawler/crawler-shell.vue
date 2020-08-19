@@ -71,7 +71,7 @@
 </template>
 
 <script>
-  import { fetchCrawlerShellList, createCrawlerShell, executeCrawlerShell } from '@/api/crawler'
+  import { fetchCrawlerShellList, createCrawlerShell, deleteCrawlerShell, executeCrawlerShell } from '@/api/crawler'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -143,6 +143,36 @@
         this.resetTemp()
         this.dialogStatus = 'create'
         this.createFormVisible = true
+      },
+      handleDelete(row, index) {
+        this.$confirm('删除操作无法恢复，请谨慎删除。', '是否删除?', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          type: 'error'
+        })
+          .then(async() => {
+            deleteCrawlerShell(row.id).then(response => {
+              const code = response.status
+              if (code === 200) {
+                this.$notify({
+                  message: '删除成功!',
+                  type: 'success',
+                  duration: 2000
+                })
+                this.list.splice(index, 1)
+              } else {
+                this.$notify({
+                  message: '删除失败',
+                  type: 'error',
+                  duration: 2000
+                })
+              }
+              console.log(response)
+            })
+          })
+          .catch(err => {
+            console.error(err)
+          })
       },
       handleExecute(row) {
         this.listLoading = true
