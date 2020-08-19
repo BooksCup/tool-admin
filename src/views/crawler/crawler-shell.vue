@@ -27,8 +27,18 @@
 
       <el-table-column align="center" min-width="100px" label="操作">
         <template slot-scope="{row, $index}">
-          <el-button size="small" type="primary" icon="el-icon-refresh-left" @click="handleExecute(row, $index)" />
-          <el-button size="small" type="danger" icon="el-icon-delete" @click="handleDelete(row, $index)" />
+          <el-button
+            size="small"
+            type="primary"
+            icon="el-icon-video-play"
+            title="执行脚本"
+            @click="handleExecute(row, $index)" />
+          <el-button
+            size="small"
+            type="danger"
+            icon="el-icon-delete"
+            title="删除脚本"
+            @click="handleDelete(row, $index)" />
         </template>
       </el-table-column>
     </el-table>
@@ -178,6 +188,14 @@
         this.listLoading = true
         executeCrawlerShell(row).then(response => {
           this.listLoading = false
+        }).catch(err => {
+          console.log(err)
+          this.listLoading = false
+          this.$notify({
+            message: '脚本执行失败',
+            type: 'error',
+            duration: 2000
+          })
         })
       },
       createCrawlerShell() {
