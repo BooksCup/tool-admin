@@ -35,6 +35,12 @@
             @click="handleExecute(row, $index)" />
           <el-button
             size="small"
+            type="warning"
+            icon="el-icon-edit"
+            title="编辑脚本"
+            @click="handleUpdate(row, $index)" />
+          <el-button
+            size="small"
             type="danger"
             icon="el-icon-delete"
             title="删除脚本"
@@ -77,11 +83,44 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="updateFormVisible">
+      <el-form
+        ref="dataForm"
+        :model="temp"
+        label-position="left"
+        label-width="70px"
+        style="width: 400px; margin-left:50px;"
+      >
+        <el-form-item label="脚本类型" prop="serviceType">
+          <el-select v-model="temp.serviceType" class="filter-item" placeholder="请选择脚本类型" disabled>
+            <el-option v-for="item in serviceTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="脚本路径" prop="path">
+          <el-input v-model="temp.path" placeholder="请输入脚本路径" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="updateFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="updateCrawlerShell">
+          保存
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { fetchCrawlerShellList, createCrawlerShell, deleteCrawlerShell, executeCrawlerShell } from '@/api/crawler'
+  import {
+    fetchCrawlerShellList,
+    createCrawlerShell,
+    updateCrawlerShell,
+    deleteCrawlerShell,
+    executeCrawlerShell
+  } from '@/api/crawler'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -97,7 +136,7 @@
   }, {})
 
   export default {
-    name: 'WeavePrice',
+    name: 'CrawlerShell',
     components: { Pagination },
     directives: { waves },
     filters: {
@@ -150,10 +189,22 @@
           path: ''
         }
       },
+      initTemp(row) {
+        this.temp = {
+          id: row.id,
+          serviceType: row.serviceType,
+          path: row.path
+        }
+      },
       handleCreate() {
         this.resetTemp()
         this.dialogStatus = 'create'
         this.createFormVisible = true
+      },
+      handleUpdate(row) {
+        this.initTemp(row)
+        this.dialogStatus = 'update'
+        this.updateFormVisible = true
       },
       handleDelete(row, index) {
         this.$confirm('删除操作无法恢复，请谨慎删除。', '是否删除?', {
@@ -244,6 +295,27 @@
           } else {
             this.$notify({
               message: '创建失败',
+              type: 'error',
+              duration: 2000
+            })
+          }
+        })
+      },
+      updateCrawlerShell() {
+        updateCrawlerShell(this.temp).then(response => {
+          this.updateFormVisible = false
+          const code = response.status
+          if (code === 200) {
+            this.$notify({
+              message: '编辑成功',
+              type: 'success',
+              duration: 2000
+            })
+            const index = this.list.findIndex(v => v.id === this.temp.id)
+            this.list.splice(index, 1, this.temp)
+          } else {
+            this.$notify({
+              message: '编辑失败',
               type: 'error',
               duration: 2000
             })

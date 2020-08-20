@@ -36,6 +36,15 @@ export function createCrawlerShell(data) {
   })
 }
 
+// 修改爬虫脚本
+export function updateCrawlerShell(data) {
+  return request({
+    url: crawler_base_url + 'crawlerShell/' + data.id,
+    method: 'put',
+    params: data
+  })
+}
+
 // 执行爬虫脚本
 export function executeCrawlerShell(data) {
   return request({
