@@ -47,6 +47,15 @@
             @click="handleDelete(row, $index)" />
         </template>
       </el-table-column>
+
+      <el-table-column align="center" min-width="50px" label="执行日志">
+        <template slot-scope="{row}">
+          <router-link
+            :to="{path: '/crawler/shell-execute-log/' + row.serviceType}">
+            <el-button type="info" size="small" title="执行日志" icon="el-icon-document" />
+          </router-link>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination

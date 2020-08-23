@@ -222,6 +222,13 @@ export const asyncRoutes = [
         meta: {
           title: '脚本管理'
         }
+      },
+      {
+        path: 'shell-execute-log/:serviceType',
+        component: () => import('@/views/crawler/shell-execute-log'),
+        name: 'shell-execute-log',
+        meta: { title: '脚本执行日志', noCache: true, activeMenu: '/crawler/shell-execute-log' },
+        hidden: true
       }
     ]
   },

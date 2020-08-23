@@ -61,3 +61,12 @@ export function deleteCrawlerShell(shellId) {
     method: 'delete'
   })
 }
+
+// 获取脚本执行日志列表
+export function fetchShellExecuteLogList(query) {
+  return request({
+    url: crawler_base_url + 'crawlerShell/shellExecuteLog',
+    method: 'get',
+    params: query
+  })
+}
