@@ -1,26 +1,22 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="listQuery.name"
-        placeholder="请输入名称"
-        style="width: 170px;"
+      <el-select
+        v-model="listQuery.executeType"
         class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
-      <el-select v-model="listQuery.type" style="width: 140px" class="filter-item" clearable @change="handleFilter">
-        <el-option v-for="item in this.weaveTypeOptions" :key="item" :label="item" :value="item" />
+        placeholder="请选择执行类型"
+        clearable
+        @change="handleFilter">
+        <el-option v-for="item in executeTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
-      <el-date-picker
-        v-model="listQuery.date"
-        type="date"
-        format="yyyy-MM-dd"
-        value-format="yyyy-MM-dd"
-        style="width: 170px;"
+      <el-select
+        v-model="listQuery.executeStatus"
         class="filter-item"
-        placeholder="请选择报价日期"
-        @change="handleFilter"
-      />
+        placeholder="请选择状态"
+        clearable
+        @change="handleFilter">
+        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
@@ -47,7 +43,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="270px" label="创建时间">
+      <el-table-column align="center" width="270px" label="脚本执行时间">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
@@ -103,7 +99,7 @@
   }, {})
 
   export default {
-    name: 'WeavePrice',
+    name: 'ShellExecuteLog',
     components: { Pagination },
     directives: { waves },
     filters: {
@@ -133,7 +129,9 @@
     },
     data() {
       return {
-        weaveTypeOptions: null,
+        executeTypeOptions,
+        serviceTypeOptions,
+        statusOptions,
         tableKey: 0,
         list: null,
         total: 0,
@@ -141,7 +139,9 @@
         listQuery: {
           page: 1,
           limit: 10,
-          serviceType: ''
+          serviceType: '',
+          executeType: '',
+          executeStatus: ''
         },
         serviceType: '',
         serviceName: ''
