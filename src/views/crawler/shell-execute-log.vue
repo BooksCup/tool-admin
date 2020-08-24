@@ -37,6 +37,18 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" width="270px" label="执行机器系统">
+        <template slot-scope="scope">
+          <span>{{ scope.row.osName }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" width="270px" label="执行机器IP">
+        <template slot-scope="scope">
+          <span>{{ scope.row.ip }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" min-width="100px" label="内容">
         <template slot-scope="scope">
           <span>{{ scope.row.content }}</span>
