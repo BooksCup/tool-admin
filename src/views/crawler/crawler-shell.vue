@@ -189,6 +189,14 @@
           this.list = res.list
           this.total = res.total
           this.listLoading = false
+        }).catch(err => {
+          console.error(err)
+          this.listLoading = false
+          this.$notify({
+            message: '列表加载失败!',
+            type: 'error',
+            duration: 2000
+          })
         })
       },
       resetTemp() {
