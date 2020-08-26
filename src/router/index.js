@@ -216,6 +216,14 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'exchange-rate',
+        component: () => import('@/views/crawler/exchange-rate'),
+        name: 'exchange-rate',
+        meta: {
+          title: '汇率'
+        }
+      },
+      {
         path: 'crawler-shell',
         component: () => import('@/views/crawler/crawler-shell'),
         name: 'crawler-shell',
