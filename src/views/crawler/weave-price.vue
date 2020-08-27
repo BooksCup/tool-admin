@@ -8,7 +8,13 @@
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.type" style="width: 140px" class="filter-item" clearable @change="handleFilter">
+      <el-select
+        v-model="listQuery.type"
+        style="width: 140px"
+        class="filter-item"
+        placeholder="请选择类型"
+        clearable
+        @change="handleFilter">
         <el-option v-for="item in this.weaveTypeOptions" :key="item" :label="item" :value="item" />
       </el-select>
       <el-date-picker
@@ -27,31 +33,31 @@
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" width="210px" label="名称">
+      <el-table-column align="center" label="名称" min-width="14%">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="类型">
+      <el-table-column align="center" label="类型" min-width="14%">
         <template slot-scope="scope">
           <span>{{ scope.row.type }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="价格">
+      <el-table-column align="center" label="价格" min-width="14%">
         <template slot-scope="scope">
           <span>{{ scope.row.lastTrade }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="单位">
+      <el-table-column align="center" label="单位" min-width="14%">
         <template slot-scope="scope">
           <span>{{ scope.row.unit }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="涨跌" class-name="status-col">
+      <el-table-column align="center" label="涨跌" class-name="status-col" min-width="14%">
         <template slot-scope="{row}">
           <span v-if="extractNumbers(row.change) > 0" style="color:red;">{{ row.change }}</span>
           <span v-else-if="extractNumbers(row.change) < 0" style="color:green;">{{ row.change }}</span>
@@ -59,24 +65,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="报价日期">
+      <el-table-column align="center" label="报价日期" min-width="14%">
         <template slot-scope="scope">
           <span>{{ scope.row.date }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="270px" label="创建时间">
+      <el-table-column align="center" label="创建时间" min-width="16%">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" min-width="100px" label="操作">
-        <template slot-scope="{row}">
-          <router-link
-            :to="{path: '/wechat/user-jmessage-template/' + row.userId, query:{userNickName: row.userNickName, userPhone: row.userPhone}}">
-            <el-button type="warning" size="small" icon="el-icon-message" />
-          </router-link>
         </template>
       </el-table-column>
     </el-table>
@@ -151,3 +148,8 @@
     }
   }
 </script>
+<style>
+  body .el-table th.gutter {
+    display: table-cell !important;
+  }
+</style>
