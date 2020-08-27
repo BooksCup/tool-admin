@@ -28,49 +28,49 @@
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" width="170px" label="用户名称">
+      <el-table-column align="center" label="用户名称" min-width="12%">
         <template slot-scope="scope">
           <span>{{ scope.row.userNickName }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="手机号">
+      <el-table-column align="center" label="手机号" min-width="12%">
         <template slot-scope="scope">
           <span>{{ scope.row.userPhone }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="微信号">
+      <el-table-column align="center" label="微信号" min-width="12%">
         <template slot-scope="scope">
           <span>{{ scope.row.userWxId }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="邮箱">
+      <el-table-column align="center" label="邮箱" min-width="12%">
         <template slot-scope="scope">
           <span>{{ scope.row.userEmail }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="性别" class-name="status-col">
+      <el-table-column align="center" label="性别" class-name="status-col" min-width="12%">
         <template slot-scope="{row}">
           <span :style="row.userSex | sexClassFilter">{{ row.userSex | sexFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="最后一次登录时间">
+      <el-table-column align="center" label="最后一次登录时间" min-width="12%">
         <template slot-scope="scope">
           <span>{{ scope.row.userLastLoginTime }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="170px" label="创建时间">
+      <el-table-column align="center" label="创建时间" min-width="12%">
         <template slot-scope="scope">
           <span>{{ scope.row.userCreateTime }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="操作">
+      <el-table-column align="center" label="操作" min-width="16%">
         <template slot-scope="{row}">
           <router-link
             :to="{path: '/wechat/user-jmessage-template/' + row.userId, query:{userNickName: row.userNickName, userPhone: row.userPhone}}">
@@ -149,3 +149,8 @@
     }
   }
 </script>
+<style>
+  body .el-table th.gutter {
+    display: table-cell !important;
+  }
+</style>
