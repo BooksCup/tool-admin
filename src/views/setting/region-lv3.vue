@@ -33,19 +33,19 @@
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" width="600px" label="地区名">
+      <el-table-column align="center" label="地区名" min-width="33%">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="200px" label="排序">
+      <el-table-column align="center" label="排序" min-width="33%">
         <template slot-scope="scope">
           <span>{{ scope.row.seq }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" min-width="200px" label="操作">
+      <el-table-column align="center" label="操作" min-width="34%">
         <template slot-scope="{row, $index}">
           <el-button size="small" type="primary" icon="el-icon-edit" @click="handleUpdate(row, $index)" />
           <el-button size="small" type="danger" icon="el-icon-delete" @click="handleDelete(row, $index)" />
@@ -309,3 +309,8 @@
     }
   }
 </script>
+<style>
+  body .el-table th.gutter {
+    display: table-cell !important;
+  }
+</style>
