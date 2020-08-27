@@ -25,61 +25,52 @@
       </el-button>
     </div>
 
-    <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" width="270px" label="币种">
+    <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
+      <el-table-column align="center" min-width="12%" label="币种">
         <template slot-scope="scope">
           <span>{{ scope.row.currencyName }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="120px" label="现汇买入价">
+      <el-table-column align="center" min-width="12%" label="现汇买入价">
         <template slot-scope="scope">
           <span>{{ scope.row.currencyBuy }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="120px" label="现汇卖出价">
+      <el-table-column align="center" min-width="12%" label="现汇卖出价">
         <template slot-scope="scope">
           <span>{{ scope.row.currencySell }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="120px" label="现钞买入价">
+      <el-table-column align="center" min-width="12%" label="现钞买入价">
         <template slot-scope="scope">
           <span>{{ scope.row.cashBuy }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="120px" label="现钞卖出价">
+      <el-table-column align="center" min-width="12%" label="现钞卖出价">
         <template slot-scope="scope">
           <span>{{ scope.row.cashSell }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="120px" label="中行折算价">
+      <el-table-column align="center" min-width="12%" label="中行折算价">
         <template slot-scope="scope">
           <span>{{ scope.row.middle }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="240px" label="发布时间">
+      <el-table-column align="center" min-width="14%" label="发布时间">
         <template slot-scope="scope">
           <span>{{ scope.row.publishDate }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="240px" label="创建时间">
+      <el-table-column align="center" min-width="14%" label="创建时间">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" min-width="100px" label="操作">
-        <template slot-scope="{row}">
-          <router-link
-            :to="{path: '/wechat/user-jmessage-template/' + row.userId, query:{userNickName: row.userNickName, userPhone: row.userPhone}}">
-            <el-button type="warning" size="small" icon="el-icon-message" />
-          </router-link>
         </template>
       </el-table-column>
     </el-table>
@@ -152,3 +143,8 @@
     }
   }
 </script>
+<style>
+  body .el-table th.gutter {
+    display: table-cell !important;
+  }
+</style>
