@@ -24,38 +24,38 @@
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" width="210px" label="执行类型">
+      <el-table-column align="center" label="执行类型" min-width="15%">
         <template slot-scope="scope">
           <span
             :style="scope.row.executeType | executeTypeClassFilter">{{ scope.row.executeType | executeTypeFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="210px" label="状态">
+      <el-table-column align="center" label="状态" min-width="15%">
         <template slot-scope="scope">
           <span :style="scope.row.executeStatus | statusClassFilter">{{ scope.row.executeStatus | statusFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="270px" label="执行机器系统">
+      <el-table-column align="center" label="执行机器系统" min-width="15%">
         <template slot-scope="scope">
           <span>{{ scope.row.osName }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="270px" label="执行机器IP">
+      <el-table-column align="center" label="执行机器IP" min-width="20%">
         <template slot-scope="scope">
           <span>{{ scope.row.ip }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="内容">
+      <el-table-column align="center" label="内容" min-width="20%">
         <template slot-scope="scope">
           <span>{{ scope.row.content }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="270px" label="脚本执行时间">
+      <el-table-column align="center" label="脚本执行时间" min-width="15%">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
@@ -191,3 +191,8 @@
     }
   }
 </script>
+<style>
+  body .el-table th.gutter {
+    display: table-cell !important;
+  }
+</style>

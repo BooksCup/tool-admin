@@ -13,19 +13,19 @@
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" width="300px" label="爬虫类型">
+      <el-table-column align="center" label="爬虫类型" min-width="20%">
         <template slot-scope="scope">
           <span>{{ scope.row.serviceType | serviceTypeFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="600px" label="脚本路径">
+      <el-table-column align="center" label="脚本路径" min-width="30%">
         <template slot-scope="scope">
           <span>{{ scope.row.path }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="操作">
+      <el-table-column align="center" label="操作" min-width="30%">
         <template slot-scope="{row, $index}">
           <el-button
             size="small"
@@ -48,7 +48,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" min-width="50px" label="执行日志">
+      <el-table-column align="center" label="执行日志" min-width="20%">
         <template slot-scope="{row}">
           <router-link
             :to="{path: '/crawler/shell-execute-log/' + row.serviceType}">
@@ -346,3 +346,8 @@
     }
   }
 </script>
+<style>
+  body .el-table th.gutter {
+    display: table-cell !important;
+  }
+</style>
