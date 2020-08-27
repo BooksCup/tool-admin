@@ -18,6 +18,14 @@ export function fetchWeavePriceList(query) {
   })
 }
 
+// 获取币种列表
+export function fetchCurrencyList() {
+  return request({
+    url: crawler_base_url + 'exchangeRate/currency',
+    method: 'get'
+  })
+}
+
 // 获取汇率列表
 export function fetchExchangeRateList(query) {
   return request({

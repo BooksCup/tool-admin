@@ -1,15 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="listQuery.name"
-        placeholder="请输入名称"
-        style="width: 170px;"
+      <el-select
+        v-model="listQuery.currencyName"
+        style="width: 140px"
         class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
-      <el-select v-model="listQuery.type" style="width: 140px" class="filter-item" clearable @change="handleFilter">
-        <el-option v-for="item in this.weaveTypeOptions" :key="item" :label="item" :value="item" />
+        clearable
+        @change="handleFilter"
+        placeholder="请选择币种">
+        <el-option v-for="item in this.currencyOptions" :key="item" :label="item" :value="item" />
       </el-select>
       <el-date-picker
         v-model="listQuery.date"
@@ -96,7 +95,7 @@
 </template>
 
 <script>
-  import { fetchWeaveTypeList, fetchExchangeRateList } from '@/api/crawler'
+  import { fetchCurrencyList, fetchExchangeRateList } from '@/api/crawler'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -107,19 +106,20 @@
     filters: {},
     data() {
       return {
-        weaveTypeOptions: null,
+        currencyOptions: null,
         tableKey: 0,
         list: null,
         total: 0,
         listLoading: true,
         listQuery: {
           page: 1,
-          limit: 10
+          limit: 10,
+          currencyName: ''
         }
       }
     },
     created() {
-      this.getWeaveTypeList()
+      this.getCurrencyList()
       this.getList()
     },
     methods: {
@@ -140,9 +140,9 @@
           })
         })
       },
-      getWeaveTypeList() {
-        fetchWeaveTypeList().then(response => {
-          this.weaveTypeOptions = response.data
+      getCurrencyList() {
+        fetchCurrencyList().then(response => {
+          this.currencyOptions = response.data
         })
       },
       handleFilter() {
