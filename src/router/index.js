@@ -166,35 +166,35 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-  {
-    path: '/wechat',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'check-template',
-    meta: {
-      title: '微信',
-      icon: 'wechat',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'user',
-        component: () => import('@/views/wechat/user'),
-        name: 'user',
-        meta: {
-          title: '用户管理'
-        }
-      },
-      {
-        path: 'user-jmessage-template/:id',
-        component: () => import('@/views/wechat/user-jmessage-template'),
-        name: 'user-jmessage-template',
-        meta: { title: '极光IM', noCache: true, activeMenu: '/wechat/user-jmessage-template' },
-        hidden: true
-      }
-    ]
-  },
+  // {
+  //   path: '/wechat',
+  //   component: Layout,
+  //   redirect: '/permission/page',
+  //   alwaysShow: true, // will always show the root menu
+  //   name: 'check-template',
+  //   meta: {
+  //     title: '微信',
+  //     icon: 'wechat',
+  //     roles: ['admin', 'editor'] // you can set roles in root nav
+  //   },
+  //   children: [
+  //     {
+  //       path: 'user',
+  //       component: () => import('@/views/wechat/user'),
+  //       name: 'user',
+  //       meta: {
+  //         title: '用户管理'
+  //       }
+  //     },
+  //     {
+  //       path: 'user-jmessage-template/:id',
+  //       component: () => import('@/views/wechat/user-jmessage-template'),
+  //       name: 'user-jmessage-template',
+  //       meta: { title: '极光IM', noCache: true, activeMenu: '/wechat/user-jmessage-template' },
+  //       hidden: true
+  //     }
+  //   ]
+  // },
   {
     path: '/crawler',
     component: Layout,
@@ -212,7 +212,7 @@ export const asyncRoutes = [
         component: () => import('@/views/crawler/weave-price'),
         name: 'weave-price',
         meta: {
-          title: '纺织品价格趋势'
+          title: '纺织行情'
         }
       },
       {
@@ -220,7 +220,15 @@ export const asyncRoutes = [
         component: () => import('@/views/crawler/exchange-rate'),
         name: 'exchange-rate',
         meta: {
-          title: '汇率'
+          title: '实时汇率'
+        }
+      },
+      {
+        path: 'forward-exchange',
+        component: () => import('@/views/crawler/forward-exchange'),
+        name: 'forward-exchange',
+        meta: {
+          title: '远期汇率'
         }
       },
       {
@@ -240,42 +248,42 @@ export const asyncRoutes = [
       }
     ]
   },
-  {
-    path: '/setting',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'setting',
-    meta: {
-      title: '设置',
-      icon: 'setting',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'region',
-        component: () => import('@/views/setting/region'),
-        name: 'region',
-        meta: {
-          title: '地区'
-        }
-      },
-      {
-        path: 'region-lv2/:id',
-        component: () => import('@/views/setting/region-lv2'),
-        name: 'region-lv2',
-        meta: { title: '二级地区', noCache: true, activeMenu: '/setting/region-lv2' },
-        hidden: true
-      },
-      {
-        path: 'region-lv3/:id',
-        component: () => import('@/views/setting/region-lv3'),
-        name: 'region-lv3',
-        meta: { title: '三级地区', noCache: true, activeMenu: '/setting/region-lv3' },
-        hidden: true
-      }
-    ]
-  },
+  // {
+  //   path: '/setting',
+  //   component: Layout,
+  //   redirect: '/permission/page',
+  //   alwaysShow: true, // will always show the root menu
+  //   name: 'setting',
+  //   meta: {
+  //     title: '设置',
+  //     icon: 'setting',
+  //     roles: ['admin', 'editor'] // you can set roles in root nav
+  //   },
+  //   children: [
+  //     {
+  //       path: 'region',
+  //       component: () => import('@/views/setting/region'),
+  //       name: 'region',
+  //       meta: {
+  //         title: '地区'
+  //       }
+  //     },
+  //     {
+  //       path: 'region-lv2/:id',
+  //       component: () => import('@/views/setting/region-lv2'),
+  //       name: 'region-lv2',
+  //       meta: { title: '二级地区', noCache: true, activeMenu: '/setting/region-lv2' },
+  //       hidden: true
+  //     },
+  //     {
+  //       path: 'region-lv3/:id',
+  //       component: () => import('@/views/setting/region-lv3'),
+  //       name: 'region-lv3',
+  //       meta: { title: '三级地区', noCache: true, activeMenu: '/setting/region-lv3' },
+  //       hidden: true
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/admin',
   //   component: Layout,
