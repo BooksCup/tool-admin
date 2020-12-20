@@ -26,10 +26,27 @@ export function fetchCurrencyList() {
   })
 }
 
-// 获取汇率列表
+// 获取远期汇率币种列表
+export function fetchForwardExchangeCurrencyList() {
+  return request({
+    url: crawler_base_url + 'forwardExchange/currency',
+    method: 'get'
+  })
+}
+
+// 获取实时汇率列表
 export function fetchExchangeRateList(query) {
   return request({
     url: crawler_base_url + 'exchangeRate',
+    method: 'get',
+    params: query
+  })
+}
+
+// 获取远期汇率列表
+export function fetchForwardExchangeList(query) {
+  return request({
+    url: crawler_base_url + 'forwardExchange',
     method: 'get',
     params: query
   })

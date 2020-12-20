@@ -135,8 +135,9 @@
 
   // 业务类型
   const serviceTypeOptions = [
-    { value: '0', label: '全球纺织网' },
-    { value: '1', label: '汇率' }
+    { value: '0', label: '全球纺织' },
+    { value: '1', label: '实时汇率' },
+    { value: '2', label: '远期汇率' }
   ]
 
   const serviceTypeKeyValue = serviceTypeOptions.reduce((acc, cur) => {
