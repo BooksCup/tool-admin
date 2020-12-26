@@ -34,6 +34,14 @@ export function fetchForwardExchangeCurrencyList() {
   })
 }
 
+// 获取热门汇率币种列表
+export function fetchHotExchangeCurrencyList() {
+  return request({
+    url: crawler_base_url + 'hotExchange/currency',
+    method: 'get'
+  })
+}
+
 // 获取实时汇率列表
 export function fetchExchangeRateList(query) {
   return request({
