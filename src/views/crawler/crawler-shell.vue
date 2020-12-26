@@ -137,7 +137,8 @@
   const serviceTypeOptions = [
     { value: '0', label: '全球纺织' },
     { value: '1', label: '实时汇率' },
-    { value: '2', label: '远期汇率' }
+    { value: '2', label: '远期汇率' },
+    { value: '3', label: '热门汇率' }
   ]
 
   const serviceTypeKeyValue = serviceTypeOptions.reduce((acc, cur) => {

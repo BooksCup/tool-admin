@@ -85,8 +85,10 @@
 
   // 脚本类型
   const serviceTypeOptions = [
-    { value: '0', label: '全球纺织网' },
-    { value: '1', label: '汇率' }
+    { value: '0', label: '全球纺织' },
+    { value: '1', label: '实时汇率' },
+    { value: '2', label: '远期汇率' },
+    { value: '3', label: '热门汇率' }
   ]
 
   // 脚本状态
