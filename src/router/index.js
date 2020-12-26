@@ -232,6 +232,14 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'hot-exchange',
+        component: () => import('@/views/crawler/hot-exchange'),
+        name: 'hot-exchange',
+        meta: {
+          title: '热门汇率'
+        }
+      },
+      {
         path: 'crawler-shell',
         component: () => import('@/views/crawler/crawler-shell'),
         name: 'crawler-shell',

@@ -52,6 +52,15 @@ export function fetchForwardExchangeList(query) {
   })
 }
 
+// 获取热门汇率列表
+export function fetchHotExchangeList(query) {
+  return request({
+    url: crawler_base_url + 'hotExchange',
+    method: 'get',
+    params: query
+  })
+}
+
 // 获取爬虫脚本列表
 export function fetchCrawlerShellList(query) {
   return request({
