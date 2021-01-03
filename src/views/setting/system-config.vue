@@ -1,15 +1,13 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select
-        v-model="listQuery.currencyName"
-        style="width: 140px"
+      <el-input
+        v-model="listQuery.keyword"
+        placeholder="请输入关键字"
+        style="width: 200px;"
         class="filter-item"
-        clearable
-        @change="handleFilter"
-        placeholder="请选择币种">
-        <el-option v-for="item in this.currencyOptions" :key="item" :label="item" :value="item" />
-      </el-select>
+        @keyup.enter.native="handleFilter"
+      />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
@@ -102,7 +100,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="飞鹅打印机参数配置" :visible.sync="feieFormVisible">
+    <el-dialog title="飞鹅打印机参数修改" :visible.sync="feieFormVisible">
       <el-form
         ref="dataForm"
         :model="temp"
