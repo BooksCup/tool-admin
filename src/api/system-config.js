@@ -18,3 +18,12 @@ export function updateThirdPartyConfig(param) {
     params: param
   })
 }
+
+// 修改第三方服务配置开启关闭状态
+export function updateThirdPartyConfigOpenStatus(param) {
+  return request({
+    url: base_url + 'thirdParty/config/' + param.configId + '/open',
+    method: 'put',
+    params: param
+  })
+}

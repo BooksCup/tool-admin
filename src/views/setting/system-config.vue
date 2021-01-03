@@ -28,7 +28,14 @@
 
       <el-table-column align="center" min-width="9%" label="开启状态">
         <template slot-scope="scope">
-          <div v-html="scope.row.isOpen"></div>
+          <el-switch
+            v-model="scope.row.isOpen"
+            active-color="#13ce66"
+            inactive-color="#999"
+            active-value="1"
+            inactive-value="0"
+            @change="handleOpenOrClose(scope.row)"
+          ></el-switch>
         </template>
       </el-table-column>
 
@@ -130,7 +137,7 @@
 </template>
 
 <script>
-  import { fetchThirdPartyDicList, updateThirdPartyConfig } from '@/api/system-config'
+  import { fetchThirdPartyDicList, updateThirdPartyConfig, updateThirdPartyConfigOpenStatus } from '@/api/system-config'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -212,6 +219,10 @@
         this.tianyanchaFormVisible = false
         this.kuaidi100FormVisible = false
         this.feieFormVisible = false
+      },
+      handleOpenOrClose(row) {
+        updateThirdPartyConfigOpenStatus(row).then(response => {
+        })
       },
       handleUpdate(row) {
         this.initTemp(row)
