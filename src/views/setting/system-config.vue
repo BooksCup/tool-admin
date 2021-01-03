@@ -10,16 +10,6 @@
         placeholder="请选择币种">
         <el-option v-for="item in this.currencyOptions" :key="item" :label="item" :value="item" />
       </el-select>
-      <!--      <el-date-picker-->
-      <!--        v-model="listQuery.date"-->
-      <!--        type="date"-->
-      <!--        format="yyyy-MM-dd"-->
-      <!--        value-format="yyyy-MM-dd"-->
-      <!--        style="width: 170px;"-->
-      <!--        class="filter-item"-->
-      <!--        placeholder="请选择发布日期"-->
-      <!--        @change="handleFilter"-->
-      <!--      />-->
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
@@ -64,37 +54,90 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="updateFormVisible">
+    <el-dialog title="天眼查参数修改" :visible.sync="tianyanchaFormVisible">
       <el-form
         ref="dataForm"
         :model="temp"
         label-position="left"
-        label-width="70px"
+        label-width="90px"
         style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="token" prop="path">
+        <el-form-item label="token" prop="token">
           <el-input v-model="temp.token" placeholder="请输入token" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="updateFormVisible = false">
+        <el-button @click="tianyanchaFormVisible = false">
           取消
         </el-button>
-        <el-button type="primary" @click="updateCrawlerShell">
+        <el-button type="primary" @click="updateThirdPartyConfig">
           保存
         </el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="快递100参数修改" :visible.sync="kuaidi100FormVisible">
+      <el-form
+        ref="dataForm"
+        :model="temp"
+        label-position="left"
+        label-width="90px"
+        style="width: 400px; margin-left:50px;"
+      >
+        <el-form-item label="customer" prop="customer">
+          <el-input v-model="temp.customer" placeholder="请输入customer" />
+        </el-form-item>
+
+        <el-form-item label="key" prop="key">
+          <el-input v-model="temp.key" placeholder="请输入key" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="kuaidi100FormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="updateThirdPartyConfig">
+          保存
+        </el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="飞鹅打印机参数配置" :visible.sync="feieFormVisible">
+      <el-form
+        ref="dataForm"
+        :model="temp"
+        label-position="left"
+        label-width="90px"
+        style="width: 400px; margin-left:50px;"
+      >
+        <el-form-item label="user" prop="user">
+          <el-input v-model="temp.user" placeholder="请输入user" />
+        </el-form-item>
+
+        <el-form-item label="key" prop="key">
+          <el-input v-model="temp.key" placeholder="请输入key" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="feieFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="updateThirdPartyConfig">
+          保存
+        </el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  import { fetchThirdPartyDicList } from '@/api/system-config'
+  import { fetchThirdPartyDicList, updateThirdPartyConfig } from '@/api/system-config'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
   export default {
-    name: 'ExchangeRate',
+    name: 'SystemConfig',
     components: { Pagination },
     directives: { waves },
     filters: {},
@@ -105,14 +148,10 @@
         list: null,
         total: 0,
         dialogStatus: '',
-        textMap: {
-          update: '参数修改'
-        },
-        temp: {
-          key: '',
-          token: ''
-        },
-        updateFormVisible: false,
+        temp: {},
+        tianyanchaFormVisible: false,
+        kuaidi100FormVisible: false,
+        feieFormVisible: false,
         listLoading: true,
         listQuery: {
           page: 1,
@@ -148,15 +187,56 @@
       },
       initTemp(row) {
         const configValue = JSON.parse(row.configValue)
-        this.temp = {
-          id: row.id,
-          token: configValue.token
+        const configKey = row.key
+        if (configKey === 'TIANYANCHA') {
+          this.tianyanchaFormVisible = true
+          this.temp = {
+            configId: row.configId,
+            token: configValue.token
+          }
+        } else if (configKey === 'KUAIDI100') {
+          this.kuaidi100FormVisible = true
+          this.temp = {
+            configId: row.configId,
+            key: configValue.key,
+            customer: configValue.customer
+          }
+        } else if (configKey === 'FEIE') {
+          this.feieFormVisible = true
+          this.temp = {
+            configId: row.configId,
+            key: configValue.key,
+            user: configValue.user
+          }
         }
+      },
+      colseAllForm() {
+        this.tianyanchaFormVisible = false
+        this.kuaidi100FormVisible = false
+        this.feieFormVisible = false
       },
       handleUpdate(row) {
         this.initTemp(row)
         this.dialogStatus = 'update'
-        this.updateFormVisible = true
+      },
+      updateThirdPartyConfig() {
+        updateThirdPartyConfig(this.temp).then(response => {
+          this.colseAllForm()
+          const code = response.status
+          if (code === 200) {
+            this.$notify({
+              message: '参数修改成功',
+              type: 'success',
+              duration: 2000
+            })
+          } else {
+            this.$notify({
+              message: '参数修改失败',
+              type: 'error',
+              duration: 2000
+            })
+          }
+        })
       }
     }
   }

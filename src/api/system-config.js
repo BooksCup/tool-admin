@@ -9,3 +9,12 @@ export function fetchThirdPartyDicList(query) {
     params: query
   })
 }
+
+// 修改第三方服务配置
+export function updateThirdPartyConfig(param) {
+  return request({
+    url: base_url + 'thirdParty/config/' + param.configId,
+    method: 'put',
+    params: param
+  })
+}
