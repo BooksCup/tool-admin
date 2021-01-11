@@ -256,42 +256,28 @@ export const asyncRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/setting',
-  //   component: Layout,
-  //   redirect: '/permission/page',
-  //   alwaysShow: true, // will always show the root menu
-  //   name: 'setting',
-  //   meta: {
-  //     title: '设置',
-  //     icon: 'setting',
-  //     roles: ['admin', 'editor'] // you can set roles in root nav
-  //   },
-  //   children: [
-  //     {
-  //       path: 'region',
-  //       component: () => import('@/views/setting/region'),
-  //       name: 'region',
-  //       meta: {
-  //         title: '地区'
-  //       }
-  //     },
-  //     {
-  //       path: 'region-lv2/:id',
-  //       component: () => import('@/views/setting/region-lv2'),
-  //       name: 'region-lv2',
-  //       meta: { title: '二级地区', noCache: true, activeMenu: '/setting/region-lv2' },
-  //       hidden: true
-  //     },
-  //     {
-  //       path: 'region-lv3/:id',
-  //       component: () => import('@/views/setting/region-lv3'),
-  //       name: 'region-lv3',
-  //       meta: { title: '三级地区', noCache: true, activeMenu: '/setting/region-lv3' },
-  //       hidden: true
-  //     }
-  //   ]
-  // },
+  {
+    path: '/setting',
+    component: Layout,
+    redirect: '/permission/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'setting',
+    meta: {
+      title: '设置',
+      icon: 'setting',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'system-config',
+        component: () => import('@/views/setting/system-config'),
+        name: 'system-config',
+        meta: {
+          title: '系统设置'
+        }
+      }
+    ]
+  },
   // {
   //   path: '/admin',
   //   component: Layout,
