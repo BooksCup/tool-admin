@@ -133,6 +133,44 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="阿里云OSS参数修改" :visible.sync="ossFormVisible">
+      <el-form
+        ref="dataForm"
+        :model="temp"
+        label-position="left"
+        label-width="130px"
+        style="width: 580px; margin-left:50px;"
+      >
+        <el-form-item label="endpoint" prop="endpoint">
+          <el-input v-model="temp.endpoint" placeholder="请输入endpoint" />
+        </el-form-item>
+
+        <el-form-item label="domain" prop="domain">
+          <el-input v-model="temp.domain" placeholder="请输入domain" />
+        </el-form-item>
+
+        <el-form-item label="accessKeyId" prop="accessKeyId">
+          <el-input v-model="temp.accessKeyId" placeholder="请输入accessKeyId" />
+        </el-form-item>
+
+        <el-form-item label="accessKeySecret" prop="accessKeySecret">
+          <el-input v-model="temp.accessKeySecret" placeholder="请输入accessKeySecret" />
+        </el-form-item>
+
+        <el-form-item label="bucketName" prop="bucketName">
+          <el-input v-model="temp.bucketName" placeholder="请输入bucketName" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="ossFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="updateThirdPartyConfig">
+          保存
+        </el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -157,11 +195,12 @@
         tianyanchaFormVisible: false,
         kuaidi100FormVisible: false,
         feieFormVisible: false,
+        ossFormVisible: false,
         listLoading: true,
         listQuery: {
           page: 1,
           limit: 10,
-          currencyName: ''
+          keyword: ''
         }
       }
     },
@@ -213,12 +252,23 @@
             key: configValue.key,
             user: configValue.user
           }
+        } else if (configKey === 'OSS') {
+          this.ossFormVisible = true
+          this.temp = {
+            configId: row.configId,
+            endpoint: configValue.endpoint,
+            domain: configValue.domain,
+            accessKeyId: configValue.accessKeyId,
+            accessKeySecret: configValue.accessKeySecret,
+            bucketName: configValue.bucketName
+          }
         }
       },
       colseAllForm() {
         this.tianyanchaFormVisible = false
         this.kuaidi100FormVisible = false
         this.feieFormVisible = false
+        this.ossFormVisible = false
       },
       handleOpenOrClose(row) {
         updateThirdPartyConfigOpenStatus(row).then(response => {
