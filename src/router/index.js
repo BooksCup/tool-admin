@@ -195,111 +195,111 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-  {
-    path: '/crawler',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'crawler',
-    meta: {
-      title: '爬虫',
-      icon: 'bug',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'weave-price',
-        component: () => import('@/views/crawler/weave-price'),
-        name: 'weave-price',
-        meta: {
-          title: '纺织行情'
-        }
-      },
-      {
-        path: 'exchange-rate',
-        component: () => import('@/views/crawler/exchange-rate'),
-        name: 'exchange-rate',
-        meta: {
-          title: '实时汇率'
-        }
-      },
-      {
-        path: 'forward-exchange',
-        component: () => import('@/views/crawler/forward-exchange'),
-        name: 'forward-exchange',
-        meta: {
-          title: '远期汇率'
-        }
-      },
-      {
-        path: 'hot-exchange',
-        component: () => import('@/views/crawler/hot-exchange'),
-        name: 'hot-exchange',
-        meta: {
-          title: '热门汇率'
-        }
-      },
-      {
-        path: 'crawler-shell',
-        component: () => import('@/views/crawler/crawler-shell'),
-        name: 'crawler-shell',
-        meta: {
-          title: '脚本管理'
-        }
-      },
-      {
-        path: 'shell-execute-log/:serviceType',
-        component: () => import('@/views/crawler/shell-execute-log'),
-        name: 'shell-execute-log',
-        meta: { title: '脚本执行日志', noCache: true, activeMenu: '/crawler/shell-execute-log' },
-        hidden: true
-      }
-    ]
-  },
+  // {
+  //   path: '/crawler',
+  //   component: Layout,
+  //   redirect: '/permission/page',
+  //   alwaysShow: true, // will always show the root menu
+  //   name: 'crawler',
+  //   meta: {
+  //     title: '爬虫',
+  //     icon: 'bug',
+  //     roles: ['admin', 'editor'] // you can set roles in root nav
+  //   },
+  //   children: [
+  //     {
+  //       path: 'weave-price',
+  //       component: () => import('@/views/crawler/weave-price'),
+  //       name: 'weave-price',
+  //       meta: {
+  //         title: '纺织行情'
+  //       }
+  //     },
+  //     {
+  //       path: 'exchange-rate',
+  //       component: () => import('@/views/crawler/exchange-rate'),
+  //       name: 'exchange-rate',
+  //       meta: {
+  //         title: '实时汇率'
+  //       }
+  //     },
+  //     {
+  //       path: 'forward-exchange',
+  //       component: () => import('@/views/crawler/forward-exchange'),
+  //       name: 'forward-exchange',
+  //       meta: {
+  //         title: '远期汇率'
+  //       }
+  //     },
+  //     {
+  //       path: 'hot-exchange',
+  //       component: () => import('@/views/crawler/hot-exchange'),
+  //       name: 'hot-exchange',
+  //       meta: {
+  //         title: '热门汇率'
+  //       }
+  //     },
+  //     {
+  //       path: 'crawler-shell',
+  //       component: () => import('@/views/crawler/crawler-shell'),
+  //       name: 'crawler-shell',
+  //       meta: {
+  //         title: '脚本管理'
+  //       }
+  //     },
+  //     {
+  //       path: 'shell-execute-log/:serviceType',
+  //       component: () => import('@/views/crawler/shell-execute-log'),
+  //       name: 'shell-execute-log',
+  //       meta: { title: '脚本执行日志', noCache: true, activeMenu: '/crawler/shell-execute-log' },
+  //       hidden: true
+  //     }
+  //   ]
+  // },
   {
     path: '/area',
     component: Layout,
     redirect: '/permission/page',
     alwaysShow: true, // will always show the root menu
-    name: 'setting',
+    name: 'area',
     meta: {
       title: '地区',
-      icon: 'setting',
+      icon: 'tree',
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
     children: [
       {
-        path: 'system-config',
-        component: () => import('@/views/setting/system-config'),
-        name: 'system-config',
+        path: 'province',
+        component: () => import('@/views/area/province'),
+        name: 'province',
         meta: {
-          title: '系统设置'
+          title: '省'
         }
       }
     ]
   },
-  {
-    path: '/setting',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'setting',
-    meta: {
-      title: '设置',
-      icon: 'setting',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'system-config',
-        component: () => import('@/views/setting/system-config'),
-        name: 'system-config',
-        meta: {
-          title: '系统设置'
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/setting',
+  //   component: Layout,
+  //   redirect: '/permission/page',
+  //   alwaysShow: true, // will always show the root menu
+  //   name: 'setting',
+  //   meta: {
+  //     title: '设置',
+  //     icon: 'setting',
+  //     roles: ['admin', 'editor'] // you can set roles in root nav
+  //   },
+  //   children: [
+  //     {
+  //       path: 'system-config',
+  //       component: () => import('@/views/setting/system-config'),
+  //       name: 'system-config',
+  //       meta: {
+  //         title: '系统设置'
+  //       }
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/admin',
   //   component: Layout,
