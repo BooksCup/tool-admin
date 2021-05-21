@@ -119,13 +119,13 @@
 </template>
 
 <script>
-  import { fetchProvince, createProvince, updateProvince, deleteProvince } from '../../api/area'
+  import { fetchProvince, createProvince, updateProvince, deleteProvince, refreshProvince } from '../../api/area'
   import { report_file_url } from '@/utils/config'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
   export default {
-    name: 'Region',
+    name: 'Province',
     components: { Pagination },
     directives: { waves },
     filters: {},
@@ -173,7 +173,7 @@
       handleRefresh() {
         this.listLoading = true
         this.resetQuery()
-        refreshRegion(this.listQuery).then(response => {
+        refreshProvince(this.listQuery).then(response => {
           this.getList()
         })
       },
@@ -193,7 +193,7 @@
       resetQuery() {
         this.listQuery = {
           page: 1,
-          limit: 10,
+          limit: 20,
           level: '1',
           parentId: '0'
         }

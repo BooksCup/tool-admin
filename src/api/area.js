@@ -35,3 +35,12 @@ export function deleteProvince(provinceId) {
     method: 'delete'
   })
 }
+
+// 刷新省排序
+export function refreshProvince(data) {
+  return request({
+    url: base_url + 'admin/province/refresh',
+    method: 'post',
+    params: data
+  })
+}
