@@ -257,6 +257,28 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/area',
+    component: Layout,
+    redirect: '/permission/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'setting',
+    meta: {
+      title: '地区',
+      icon: 'setting',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'system-config',
+        component: () => import('@/views/setting/system-config'),
+        name: 'system-config',
+        meta: {
+          title: '系统设置'
+        }
+      }
+    ]
+  },
+  {
     path: '/setting',
     component: Layout,
     redirect: '/permission/page',
