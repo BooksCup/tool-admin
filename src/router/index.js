@@ -275,6 +275,13 @@ export const asyncRoutes = [
         meta: {
           title: '省'
         }
+      },
+      {
+        path: 'city/:provinceId',
+        component: () => import('@/views/area/city'),
+        name: 'city',
+        meta: { title: '市', noCache: true, activeMenu: '/area/city' },
+        hidden: true
       }
     ]
   },

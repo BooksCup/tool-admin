@@ -29,31 +29,32 @@
       >
         刷新
       </el-button>
+      <el-alert :closable="false" type="success" v-text="provinceName" />
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="省份" min-width="20%">
+      <el-table-column align="center" label="市" min-width="25%">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="排序" min-width="20%">
+      <el-table-column align="center" label="排序" min-width="25%">
         <template slot-scope="scope">
           <span>{{ scope.row.seq }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="下属市" min-width="20%">
+      <el-table-column align="center" label="下属区县" min-width="25%">
         <template slot-scope="{row}">
           <router-link
-            :to="{path: '/area/city/' + row.id, query: {provinceName: row.name}}">
+            :to="{path: '/setting/region-lv3/' + row.id, query: {parentName: row.name, parentCode: row.code}}">
             <el-button type="warning" size="small" icon="el-icon-tickets" />
           </router-link>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" min-width="20%">
+      <el-table-column align="center" label="操作" min-width="25%">
         <template slot-scope="{row, $index}">
           <el-button size="small" type="primary" icon="el-icon-edit" @click="handleUpdate(row, $index)" />
           <el-button size="small" type="danger" icon="el-icon-delete" @click="handleDelete(row, $index)" />
@@ -85,7 +86,7 @@
         <el-button @click="createFormVisible = false">
           取消
         </el-button>
-        <el-button type="primary" @click="createProvince()">
+        <el-button type="primary" @click="createCity()">
           保存
         </el-button>
       </div>
@@ -110,7 +111,7 @@
         <el-button @click="updateFormVisible = false">
           取消
         </el-button>
-        <el-button type="primary" @click="updateProvince()">
+        <el-button type="primary" @click="updateCity()">
           保存
         </el-button>
       </div>
@@ -119,13 +120,13 @@
 </template>
 
 <script>
-  import { fetchProvince, createProvince, updateProvince, deleteProvince, refreshProvince } from '../../api/area'
+  import { fetchCity, createCity, updateCity, deleteCity ,refreshCity} from '../../api/area'
   import { report_file_url } from '@/utils/config'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
   export default {
-    name: 'Province',
+    name: 'City',
     components: { Pagination },
     directives: { waves },
     filters: {},
@@ -137,25 +138,33 @@
         listLoading: true,
         listQuery: {
           page: 1,
-          limit: 20
+          limit: 10,
+          level: '2'
         },
         createFormVisible: false,
         updateFormVisible: false,
         dialogStatus: '',
         textMap: {
-          create: '创建省',
-          update: '修改省'
+          create: '创建市',
+          update: '修改市'
         },
-        temp: {}
+        temp: {},
+        provinceId: '',
+        provinceName: ''
       }
     },
     created() {
+      const provinceId = this.$route.params && this.$route.params.provinceId
+      const provinceName = this.$route.query && this.$route.query.provinceName
+      this.provinceId = provinceId
+      this.provinceName = provinceName
+      this.listQuery.provinceId = provinceId
       this.getList()
     },
     methods: {
       getList() {
         this.listLoading = true
-        fetchProvince(this.listQuery).then(response => {
+        fetchCity(this.listQuery).then(response => {
           const res = response.data
           this.list = res.list
           this.total = res.total
@@ -173,8 +182,8 @@
       handleRefresh() {
         this.listLoading = true
         this.resetQuery()
-        refreshProvince(this.listQuery).then(response => {
-          this.getList()
+        refreshCity(this.listQuery).then(response => {
+          this.getList(this.parentId)
         })
       },
       handleFilter() {
@@ -185,24 +194,20 @@
         this.temp = {
           id: '',
           name: '',
-          code: '',
-          level: '1',
-          parentId: '0'
+          provinceId: this.provinceId
         }
       },
       resetQuery() {
         this.listQuery = {
           page: 1,
-          limit: 20,
-          level: '1',
-          parentId: '0'
+          limit: 10,
+          provinceId: this.provinceId
         }
       },
       initTemp(row) {
         this.temp = {
           id: row.id,
           name: row.name,
-          code: row.code,
           seq: row.seq
         }
       },
@@ -226,7 +231,7 @@
           type: 'error'
         })
           .then(async() => {
-            deleteProvince(row.id).then(response => {
+            deleteCity(row.id).then(response => {
               console.log(response)
               const code = response.status
               if (code === 200) {
@@ -255,10 +260,10 @@
         a.href = report_file_url + row.fileName
         a.click()
       },
-      createProvince() {
+      createCity() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            createProvince(this.temp).then(response => {
+            createCity(this.temp).then(response => {
               this.createFormVisible = false
               const code = response.status
               if (code === 200) {
@@ -286,10 +291,10 @@
           }
         })
       },
-      updateProvince() {
+      updateCity() {
         this.$refs['updateForm'].validate((valid) => {
           if (valid) {
-            updateProvince(this.temp).then(response => {
+            updateCity(this.temp).then(response => {
               this.updateFormVisible = false
               const code = response.status
               if (code === 200) {

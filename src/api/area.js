@@ -44,3 +44,47 @@ export function refreshProvince(data) {
     params: data
   })
 }
+
+// 获取市
+export function fetchCity(query) {
+  return request({
+    url: base_url + 'admin/city',
+    method: 'get',
+    params: query
+  })
+}
+
+// 新增市
+export function createCity(data) {
+  return request({
+    url: base_url + 'admin/city',
+    method: 'post',
+    params: data
+  })
+}
+
+// 修改省
+export function updateCity(data) {
+  return request({
+    url: base_url + 'admin/city/' + data.id,
+    method: 'put',
+    params: data
+  })
+}
+
+// 删除市
+export function deleteCity(cityId) {
+  return request({
+    url: base_url + 'admin/city/' + cityId,
+    method: 'delete'
+  })
+}
+
+// 刷新市排序
+export function refreshCity(data) {
+  return request({
+    url: base_url + 'admin/city/refresh',
+    method: 'post',
+    params: data
+  })
+}
