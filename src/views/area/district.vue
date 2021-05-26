@@ -29,28 +29,25 @@
       >
         刷新
       </el-button>
-      <el-alert :closable="false" type="success" v-text="provinceName" />
+      <el-alert :closable="false" type="success" v-text="cityName" />
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="市" min-width="25%">
+      <el-table-column align="center" label="区县" min-width="25%">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="邮编" min-width="25%">
+        <template slot-scope="scope">
+          <span>{{ scope.row.postCode }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="排序" min-width="25%">
         <template slot-scope="scope">
           <span>{{ scope.row.seq }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="下属区县" min-width="25%">
-        <template slot-scope="{row}">
-          <router-link
-            :to="{path: '/area/district/' + row.id, query: {cityName: row.name}}">
-            <el-button type="warning" size="small" icon="el-icon-tickets" />
-          </router-link>
         </template>
       </el-table-column>
 
@@ -86,7 +83,7 @@
         <el-button @click="createFormVisible = false">
           取消
         </el-button>
-        <el-button type="primary" @click="createCity()">
+        <el-button type="primary" @click="createDistrict()">
           保存
         </el-button>
       </div>
@@ -100,8 +97,11 @@
         label-width="100px"
         style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="地区名:" prop="name">
-          <el-input v-model="temp.name" placeholder="地区名" />
+        <el-form-item label="区县:" prop="name">
+          <el-input v-model="temp.name" placeholder="区县" />
+        </el-form-item>
+        <el-form-item label="邮编:" prop="name">
+          <el-input v-model="temp.postCode" placeholder="邮编" />
         </el-form-item>
         <el-form-item label="排序:" prop="seq">
           <el-input v-model="temp.seq" placeholder="排序" />
@@ -111,7 +111,7 @@
         <el-button @click="updateFormVisible = false">
           取消
         </el-button>
-        <el-button type="primary" @click="updateCity()">
+        <el-button type="primary" @click="updateDistrict()">
           保存
         </el-button>
       </div>
@@ -120,13 +120,13 @@
 </template>
 
 <script>
-  import { fetchCity, createCity, updateCity, deleteCity, refreshCity } from '../../api/area'
+  import { fetchDistrict, createDistrict, updateDistrict, deleteDistrict, refreshDistrict } from '../../api/area'
   import { report_file_url } from '@/utils/config'
   import waves from '@/directive/waves' // waves directive
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
   export default {
-    name: 'City',
+    name: 'District',
     components: { Pagination },
     directives: { waves },
     filters: {},
@@ -144,26 +144,26 @@
         updateFormVisible: false,
         dialogStatus: '',
         textMap: {
-          create: '创建市',
-          update: '修改市'
+          create: '创建区县',
+          update: '修改区县'
         },
         temp: {},
-        provinceId: '',
-        provinceName: ''
+        cityId: '',
+        cityName: ''
       }
     },
     created() {
-      const provinceId = this.$route.params && this.$route.params.provinceId
-      const provinceName = this.$route.query && this.$route.query.provinceName
-      this.provinceId = provinceId
-      this.provinceName = provinceName
-      this.listQuery.provinceId = provinceId
+      const cityId = this.$route.params && this.$route.params.cityId
+      const cityName = this.$route.query && this.$route.query.cityName
+      this.cityId = cityId
+      this.cityName = cityName
+      this.listQuery.cityId = cityId
       this.getList()
     },
     methods: {
       getList() {
         this.listLoading = true
-        fetchCity(this.listQuery).then(response => {
+        fetchDistrict(this.listQuery).then(response => {
           const res = response.data
           this.list = res.list
           this.total = res.total
@@ -181,7 +181,7 @@
       handleRefresh() {
         this.listLoading = true
         this.resetQuery()
-        refreshCity(this.listQuery).then(response => {
+        refreshDistrict(this.listQuery).then(response => {
           this.getList(this.parentId)
         })
       },
@@ -193,20 +193,21 @@
         this.temp = {
           id: '',
           name: '',
-          provinceId: this.provinceId
+          cityId: this.cityId
         }
       },
       resetQuery() {
         this.listQuery = {
           page: 1,
           limit: 20,
-          provinceId: this.provinceId
+          cityId: this.cityId
         }
       },
       initTemp(row) {
         this.temp = {
           id: row.id,
           name: row.name,
+          postCode: row.postCode,
           seq: row.seq
         }
       },
@@ -230,7 +231,7 @@
           type: 'error'
         })
           .then(async() => {
-            deleteCity(row.id).then(response => {
+            deleteDistrict(row.id).then(response => {
               console.log(response)
               const code = response.status
               if (code === 200) {
@@ -259,10 +260,10 @@
         a.href = report_file_url + row.fileName
         a.click()
       },
-      createCity() {
+      createDistrict() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            createCity(this.temp).then(response => {
+            createDistrict(this.temp).then(response => {
               this.createFormVisible = false
               const code = response.status
               if (code === 200) {
@@ -290,10 +291,10 @@
           }
         })
       },
-      updateCity() {
+      updateDistrict() {
         this.$refs['updateForm'].validate((valid) => {
           if (valid) {
-            updateCity(this.temp).then(response => {
+            updateDistrict(this.temp).then(response => {
               this.updateFormVisible = false
               const code = response.status
               if (code === 200) {

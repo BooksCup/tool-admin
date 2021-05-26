@@ -63,7 +63,7 @@ export function createCity(data) {
   })
 }
 
-// 修改省
+// 修改市
 export function updateCity(data) {
   return request({
     url: base_url + 'admin/city/' + data.id,
@@ -84,6 +84,50 @@ export function deleteCity(cityId) {
 export function refreshCity(data) {
   return request({
     url: base_url + 'admin/city/refresh',
+    method: 'post',
+    params: data
+  })
+}
+
+// 获取区县
+export function fetchDistrict(query) {
+  return request({
+    url: base_url + 'admin/district',
+    method: 'get',
+    params: query
+  })
+}
+
+// 新增区县
+export function createDistrict(data) {
+  return request({
+    url: base_url + 'admin/district',
+    method: 'post',
+    params: data
+  })
+}
+
+// 修改区县
+export function updateDistrict(data) {
+  return request({
+    url: base_url + 'admin/district/' + data.id,
+    method: 'put',
+    params: data
+  })
+}
+
+// 删除区县
+export function deleteDistrict(districtId) {
+  return request({
+    url: base_url + 'admin/district/' + districtId,
+    method: 'delete'
+  })
+}
+
+// 刷新市排序
+export function refreshDistrict(data) {
+  return request({
+    url: base_url + 'admin/district/refresh',
     method: 'post',
     params: data
   })

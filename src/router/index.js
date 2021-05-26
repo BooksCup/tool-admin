@@ -282,6 +282,13 @@ export const asyncRoutes = [
         name: 'city',
         meta: { title: '市', noCache: true, activeMenu: '/area/city' },
         hidden: true
+      },
+      {
+        path: 'district/:cityId',
+        component: () => import('@/views/area/district'),
+        name: 'district',
+        meta: { title: '区县', noCache: true, activeMenu: '/area/district' },
+        hidden: true
       }
     ]
   },
